@@ -1,0 +1,321 @@
+﻿@model ShopModel
+
+<div class="accordion" id="accordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              افزودن مشتری
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordion">
+            <div class="accordion-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="CustomerList" class="table table-striped col-12">
+                                    <thead>
+                                        <tr>
+                                            <th>ردیف</th>
+                                            <th>نام</th>
+                                            <th>کد ملی</th>
+                                            <th>ویرایش</th>
+                                            <th>حذف</th>
+                                            <th>سفارشات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{
+                                            var i = 0;
+                                            foreach (var item in Model.CustomerModels)
+                                            {
+                                                i++;
+                                                <tr>
+                                                    <td>@i</td>
+                                                    <td>
+                                                        <input id="CName-@item.Id" asp-for="@item.Name" onclick="turnTextIntoInputField('CName-@item.Id')" />
+                                                    </td>
+                                                    <td> <input id="NationalCode-@item.Id" asp-for="@item.NationalCode" /></td>
+                                                    <td>
+                                                        <a class="btn btn-link" onclick="EditCustomer(@item.Id)">
+                                                            <i class="fa fa-edit " style="color:#017b44"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a id="Delete" class="btn btn-link" onclick="DeleteCustomer(@item.Id)">
+                                                            <i class="fa fa-trash" style="color:#017b44"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a id="ShowOrder" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" class="btn btn-link" onclick="UpdateOrder(@item.Id)">
+                                                            <i class="fa fa-eye" style="color:#017b44"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <div class="col-12 text-left">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CustomerModal">افزودن</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+               افزودن محصول
+            </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion">
+            <div class="accordion-body">
+                <div class="row ">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="ProductList" class="table table-striped col-12">
+                                    <thead>
+                                        <tr>
+                                            <th>ردیف</th>
+                                            <th>نام</th>
+                                            <th>قیمت</th>
+                                            <th>ویرایش</th>
+                                            <th>حذف</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @{
+                                            var p = 0;
+                                            foreach (var item in Model.ProductModels)
+                                            {
+                                                p++;
+                                                <tr>
+                                                    <td>@p</td>
+                                                    <td>
+                                                        <input id="PName-@item.Id" asp-for="@item.ProductName" />
+                                                    </td>
+                                                    <td>
+                                                        <input id="PPrice-@item.Id" asp-for="@item.Price" />
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-link" onclick="EditProduct(@item.Id)">
+                                                            <i class="fa fa-edit " style="color:#017b44"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a id="Delete" class="btn btn-link" onclick="DeleteProduct(@item.Id)">
+                                                            <i class="fa fa-trash" style="color:#017b44"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ProductModal">افزودن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                سفارشات
+            </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordion">
+            <div class="accordion-body">
+                <div class="row ">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table class="table table-striped col-12">
+                                    <thead>
+                                        <tr>
+                                            <th>ردیف</th>
+                                            <th>نام کاربر</th>
+                                            <th>نام محصول</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="orderList">
+
+                                        @{
+                                            var o = 0;
+                                            foreach (var item in Model.OrderModels)
+                                            {
+                                                o++;
+                                                <tr>
+                                                    <td>@o</td>
+                                                    <td>
+                                                        @item.CustomerName
+                                                    </td>
+                                                    <td>
+                                                        @item.ProductName
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#OrderModal">افزودن</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div>
+    @await Html.PartialAsync("_CustomerModal")
+    @await Html.PartialAsync("_ProductModal")
+    @await Html.PartialAsync("_OrderModal",Model)
+</div>
+
+<script>
+    //Customer
+    function DeleteCustomer(deleteId) {
+        var txt;
+        if (confirm("از حذف رکورد مطمئن هستید؟")) {
+            var postData = {
+                Id: deleteId
+            };
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/Admin/Shop/DeleteCustomer",
+                data: postData,
+                error: function (jqXHR, textStatus, errorThrown) {
+                },
+                complete: function (jqXHR, textStatus) {
+
+                    location.reload();
+                }
+            });
+        }
+
+    }
+
+    function EditCustomer(Id) 
+    {
+        var postData = {
+            Id: Id,
+            Name: $("#CName-" + Id).val(),
+            NationalCode: $("#NationalCode-" + Id).val()
+        };
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/Admin/Shop/EditCustomer",
+            data: postData,
+            error: function (jqXHR, textStatus, errorThrown) {
+            },
+            complete: function (jqXHR, textStatus) {
+
+                window.onload();
+            }
+        });
+    }
+
+    //Product
+    function EditProduct(Id) {
+        var t = $("#PName-" + Id);
+        var postData = {
+            Id: Id,
+            ProductName: $("#PName-" + Id).val(),
+            Price: $("#PPrice-" + Id).val()
+        };
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/Admin/Shop/EditProduct",
+            data: postData,
+            error: function (jqXHR, textStatus, errorThrown) {
+            },
+            complete: function (jqXHR, textStatus) {
+
+                window.onload();
+            }
+        });
+    }
+    function DeleteProduct(deleteId) {
+        var txt;
+        if (confirm("از حذف رکورد مطمئن هستید؟")) {
+            var postData = {
+                Id: deleteId
+            };
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/Admin/Shop/DeleteProduct",
+                data: postData,
+                error: function (jqXHR, textStatus, errorThrown) {
+                },
+                complete: function (jqXHR, textStatus) {
+
+                    location.reload();
+                }
+            });
+        }
+
+    }
+
+    function UpdateOrder(Id) {
+        $("#orderList").empty();
+        var postData = {
+            Id: Id
+        };
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: "/Admin/Shop/GetOrders",
+            data: postData,
+            dataType: 'json',
+            success: function (result) {
+                var data = JSON.parse(result);
+                var content = "";
+
+                for (var j = 0; j < data.length; j++) {
+                    content += "<tr>"
+                        + "<td>" + j + "</td>"
+                        + "<td>" + data[j].CustomerName + "</td>"
+                        + "<td>" + data[j].ProductName + "</td>"
+                        + "<td></td>"
+                        + "</tr>";
+                }
+                $("#orderList").append(content);
+            }
+        });
+    }
+
+
+    $("input").click(function () {
+       
+    });
+
+</script>

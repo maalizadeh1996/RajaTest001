@@ -1,0 +1,20 @@
+﻿<!-- Modal -->
+<form asp-area="Admin" asp-controller="Shop" asp-action="ProductCreate" method="Post">
+    <div class="modal fade" id="ProductModal" tabindex="-1" aria-labelledby="ProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ProductModalLabel">افزودن محصول جدید</h1>
+                </div>
+                <div class="modal-body">
+                    @await Html.PartialAsync("_CreateProduct",new ProductModel())
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">انصراف</button>
+                    <button type="submit" class="btn btn-primary">افزودن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

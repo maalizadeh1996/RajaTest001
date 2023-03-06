@@ -1,0 +1,74 @@
+﻿@model CustomerModel
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+           <form asp-area="Admin" asp-controller="Customer" asp-action="Edit" method="Post">
+                <input type="hidden" asp-for="@Model.Id" />
+                <div class="card-body">
+                    <div class="form-group">
+                        <span asp-validation-for="@Model.Name" class="text-danger">
+                        </span>
+                        <br />
+                        <label asp-for="@Model.Name"></label>
+                        <input asp-for="@Model.Name" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="@Model.NationalCode" class="text-danger">
+                        </span>
+                        <br />
+                        <label asp-for="@Model.NationalCode"></label>
+                        <input asp-for="@Model.NationalCode" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="@Model.Mobile" class="text-danger">
+                        </span>
+                        <br />
+                        <label asp-for="@Model.Mobile"></label>
+                        <input asp-for="@Model.Mobile" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <span asp-validation-for="@Model.Address" class="text-danger">
+                        </span>
+                        <br />
+                        <label asp-for="@Model.Address"></label>
+                        <input asp-for="@Model.Address" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-12 text-left">
+                    <a asp-area="Admin" asp-controller="Customer" asp-action="List" class="btn green text-white">انصراف</a>
+                    <input type="submit" value="ویرایش" class="btn green text-white" />
+
+                </div>
+           </form>
+           <div class="OrderList">
+                <table id="ProductList" class="table table-striped col-12">
+                    <thead>
+                        <tr>
+                            <th>ردیف</th>
+                            <th>نام</th>
+                            <th>کد ملی</th>
+                            <th>نام محصول</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @{
+                            var i = 0;
+                            foreach (var item in Model.Orders)
+                            {
+                                i++;
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@Model.Name</td>
+                                    <td>@Model.NationalCode</td>
+                                    <td>@item.ProductName</td>
+                                </tr>
+                            }
+                        }
+
+                    </tbody>
+                </table>
+           </div>
+        </div>
+    </div>
+</div>

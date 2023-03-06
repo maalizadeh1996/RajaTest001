@@ -1,0 +1,23 @@
+﻿@model ShopModel
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div class="col-8 form-group">
+                    <span asp-validation-for="@Model.customerId" class="text-danger">
+                    </span>
+                    <select class="form-control" asp-for="@Model.customerId" asp-items="@Model.CustomerList" required>
+                        <option>کاربر را انتخاب کنید</option>
+                    </select>
+                </div>
+                <div class="col-8 form-group">
+                    <span asp-validation-for="@Model.productId" class="text-danger">
+                    </span>
+                    <select class="form-control" asp-for="@Model.productId" asp-items="@Model.ProductList" required>
+                        <option>محصول را انتخاب کنید</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
